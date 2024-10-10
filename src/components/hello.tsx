@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 
 interface Props{
     children:string
-    bang:boolean
+    bang?:boolean
 }
 
 const hello=(props:Props):JSX.Element=>{
