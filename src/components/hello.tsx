@@ -1,38 +1,29 @@
-import { StyleSheet, Text, View } from "react-native";
-
+import { StyleSheet, Text, View } from 'react-native'
+ 
 interface Props{
-    children:string
-    bang?:boolean
+    children: string
+    bang?: boolean
 }
-
-const hello=(props:Props):JSX.Element=>{
-    // const children =props.children
-    const{children,bang}=props
-    return(
+ 
+const hello = (props:Props): JSX.Element => {
+    const {children, bang} = props
+    return (
         <View>
-        <Text style={styles.text}>
-        Hello{children}{bang ?'!':''}
-        </Text>
-    </View>
+            <Text style= { style.text}>Ola{children}{bang ? '!': ""}</Text>
+        </View>
     )
-
 }
-
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#ff45',
-      alignItems: 'center',
-      justifyContent: 'center',
-      
-    },
+ 
+const style = StyleSheet.create({
     text:{
-        color:'#a4565',
-       backgroundColor:'orange',
-        fontSize:150,
-        fontWeight:'bold',
-        padding:16
+        color:"#FFFFFF",
+        backgroundColor: "blue",
+        fontSize: 40,
+        fontWeight: "bold",
+        padding: 16
     }
-  });
-  
+})
+ 
+ 
 export default hello
+ 

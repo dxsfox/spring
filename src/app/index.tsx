@@ -1,60 +1,25 @@
-import { StyleSheet, Text, View } from "react-native"
-
-
-const Index=()=>{
-    return(
-        <View>
-            <View style={styles.header}>
-                <View style={styles.headerInner}>
-                    <Text style={styles.headerTitle}>TODO app</Text>
-                    <Text style={styles.headerRight}>LogOut</Text>
-                </View>
-            </View>
-            <View>
-                <View style={styles.todoListItem}>
-                    <Text style ={styles.todoListItemTitle}>Incomplete TODO</Text>
-                    <Text style ={styles.todoListItemDate}>15th OCT 2024 10:23</Text>
-                </View>
-                <View>
-                    <Text>X</Text>
-                </View>
-            </View>
-        </View>
-
-
-    )
+import { Redirect, router } from "expo-router"
+import { onAuthStateChanged } from "firebase/auth"
+import { useEffect } from "react"
+import { auth } from "../config"
+ 
+const Index = () => {
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                router.replace('/todo/list')
+                console.log('User is signed in')
+                // Alert.alert('User is signed in')
+            } else {
+                console.log('User is signed out')
+                // Alert.alert('User is signed out')
+            }
+        })
+    }, [])
+    // return <Redirect href="/todo/detail" />
+    return <Redirect href="/auth/log_in" />
+ 
+    // return <Redirect href="/auth/sign_up" />
 }
-
-const styles=StyleSheet.create({
-    container:{
-        flex:1,
-        backgroundColor:'#ffffff',
-    },
-    
-    header:{
-    backgroundColor:'#79a8a9',
-    height:104,
-    justifyContent:'flex-end'
-},
-headerInner:{
-    alignItems:'center',
-},
-headerRight:{
-    position:'absolute',
-    right:16,
-    bottom:16,
-    color:'rgba(255,255,255,0.8)'
-},
-headerTitle:{
-    fontSize:24,
-    marginBottom:8,
-    lineHeight:32,
-    fontWeight:'bold',
-    color:'#ffffff'
-}
-    
-    
-
-})
-
+ 
 export default Index
