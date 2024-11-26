@@ -4,11 +4,12 @@ import { doc, onSnapshot } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
+
 import { type Todo } from '../../../types/todo'
-import CircleButton from '../../components/circle_button'
+import CircleButton from '../../components/circleButton'
 import { auth, db } from '../../config'
 // import { ScrollView } from 'react-native-gesture-handler'
- 
+
 const handlePress = (id:string): void => {
     router.push({pathname: '/todo/edit', params: {id}})
 }

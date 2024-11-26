@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react'
 import { auth, db } from '../../config'
 
 import { Feather } from '@expo/vector-icons'
-import CircleButton from '../../components/circle_button'
+import CircleButton from '../../components/circleButton'
 // import { type Todo } from '../../../types/todo'
 
 import KeyboardAvoidingView from '../../components/KeyboardAvoidingView'
@@ -34,7 +34,6 @@ const handlePress =  (id:string, bodyText: string): void => {
 const Edit = (): JSX.Element => {
     const id = String(useLocalSearchParams().id)
     const [bodyText, setBodyText] = useState('')
-    console.log('edit',bodyText)
     useEffect (() => {
         if (auth.currentUser === null) { return }
         const ref = doc(db, 'users/$(auth.currentUser.uid)/todos', id)
@@ -57,12 +56,10 @@ const Edit = (): JSX.Element => {
                  multiline 
                  style={styles.input} 
                  value = {bodyText}
-                
                  onChangeText={(text) => { setBodyText(text) }}
                  autoFocus
                  />
             </View>
-            {console.log(bodyText)}
 
             <CircleButton onPress={() => { handlePress(id, bodyText)}}>
                 <Feather name='plus' size={40} color="#ffffff" />
@@ -78,14 +75,16 @@ const styles = StyleSheet.create({
     },
     inputContainer: {
         flex: 1,
-        paddingHorizontal: 27,
-        paddingVertical: 32
+        // paddingHorizontal: 27,
+        // paddingVertical: 32
     },
     input: {
         flex: 1,
         fontSize: 16,
         lineHeight: 24,
-        textAlignVertical: 'top'
+        textAlignVertical: 'top',
+        paddingHorizontal: 27,
+        paddingVertical: 32
     }
 })
 

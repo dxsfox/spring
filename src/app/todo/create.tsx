@@ -3,7 +3,7 @@ import { router } from 'expo-router';
 import { addDoc, collection, Timestamp } from 'firebase/firestore';
 import { useState } from 'react';
 import { Alert, StyleSheet, TextInput, View } from 'react-native';
-import CircleButton from '../../components/circle_button';
+import CircleButton from '../../components/circleButton';
 import KeyboardAvoidingView from '../../components/KeyboardAvoidingView';
 import { auth, db } from '../../config';
  
