@@ -1,18 +1,44 @@
 import { Feather } from '@expo/vector-icons'
-import { useRouter } from 'expo-router'
+import { router, useLocalSearchParams } from 'expo-router'
+import { doc, onSnapshot } from 'firebase/firestore'
+import { useEffect, useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
- 
+
+import { type Todo } from '../../../types/todo'
 import CircleButton from '../../components/circle_button'
+import { auth, db } from '../../config'
+// import { ScrollView } from 'react-native-gesture-handler'
  
-// const handlePress = (): void => {
-//     router.back()
-// }
- 
+const handlePress = (id:string): void => {
+    router.push({pathname: '/todo/edit', params: {id}})
+}
+
 const Detail = () :JSX.Element=> {
-    const router = useRouter();
-    const handlePress = (): void => {
-        router.back();
-    };
+    const id = String(useLocalSearchParams().id)
+    console.log('id@detail',id)
+    
+    const[todo,setTodo]=useState<Todo | null>(null)
+    useEffect(() =>{
+        if(auth.currentUser===null){return}
+        const ref =doc(db,'user/$(auth.currentUser.uid)/todos',String(id))
+        const unsubscribe=onSnapshot(ref,(todoDoc)=>{
+            console.log(todoDoc.data())
+            const{bodyText,updatedAt}=todoDoc.data() as Todo
+            setTodo({
+                id:todoDoc.id,
+                bodyText:bodyText,
+                updatedAt:updatedAt
+            })
+        })
+        
+
+    return unsubscribe
+},[])
+
+    // const router = useRouter();
+    // const handlePress = (): void => {
+    //     router.back();
+    // };
  
  
     return (
@@ -21,24 +47,32 @@ const Detail = () :JSX.Element=> {
        
             {/* <Header /> */}
             <View style={styles.todoHeader}>
-                <Text style={styles.todoTitle}>Todo List </Text>
-                <Text style={styles.todoDate}>15Oct2024 10:23</Text>
+                <Text style={styles.todoTitle}>{todo?.bodyText}</Text>
+                <Text style={styles.todoDate}>{todo?.updatedAt.toDate().toLocaleString('ja-JP')}</Text>
  
             </View>
             <View>
                 <Text style={styles.todoBody}>
-                    Study React Native
+                   {todo?.bodyText}
                 </Text>
             </View>    
-            <CircleButton onPress={handlePress} style={{top: 160, bottom: 'auto'}}>
+            {/* <CircleButton onPress={()=>{handlePress(id) }} style={{top: 160, bottom: 'auto'}}>
                 <Feather name='edit-2' size={40} color="#ffffff" />
-            </CircleButton>
+                {console.log('edit',bodyText)}
+            </CircleButton> */}
+            <CircleButton onPress={() => {handlePress(id);
+            console.log('edit', bodyText);
+    }} 
+    style={{ top: 160, bottom: 'auto' }}>
+    <Feather name='edit-2' size={40} color="#ffffff" />
+</CircleButton>
+
                    
         </View>
  
     )
 }
- 
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,

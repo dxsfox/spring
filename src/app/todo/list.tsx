@@ -2,14 +2,16 @@ import { Feather } from '@expo/vector-icons'
 import { router, useNavigation } from 'expo-router'
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { FlatList, StyleSheet, View } from 'react-native'
+import { type Todo } from '../../../types/todo'
 import CircleButton from '../../components/circle_button'
 import LogOut from '../../components/LogOutButton'
+import TodoListItem from '../../components/todoListItem'
 import { auth, db } from '../../config'
- 
-import { type Todo } from '../../../types/todo'
- 
- 
+
+
+
+
 const handlePress = (): void => {
     router.push('/todo/create')}
 
@@ -38,8 +40,8 @@ const List = ():JSX.Element => {
                 const {bodyText, updatedAt} = doc.data()
                     remoteTodos.push({
                         id: doc.id,
-                        bodyText: doc.data().bodyText,
-                        updatedAt: doc.data().updatedAt.toDate()
+                        bodyText:bodyText,
+                        updatedAt: updatedAt
                     })
                 })
             setTodos(remoteTodos)
@@ -51,12 +53,10 @@ const List = ():JSX.Element => {
     return (
  
         <View style={styles.container}>
-       
-            {/* <Header /> */}
-            {/* <TodoListItem />
-            <TodoListItem />
-            <TodoListItem /> */}
-           
+       <FlatList
+       data={todos}
+       renderItem={({item}) => <TodoListItem todo={item} />}
+    />
             <CircleButton onPress={handlePress}>
                 <Feather name='plus' size={40} color="#ffffff" />
             </CircleButton>
